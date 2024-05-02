@@ -1,6 +1,4 @@
 const choices = ["rock", "paper", "scissors"];
-let humanScore = 0;
-let computerScore = 0;
 
 function getComputerChoice(){
     const randomNum = Math.floor((Math.random()*3));  //random number (0-2)
@@ -12,25 +10,36 @@ function getHumanChoice(){
     return choices[choice];
 }
 
-function playRound(humanChoice, computerChoice){
-    //human win
-    if (humanChoice == choices[0] && computerChoice == choices[2] ||
-        humanChoice == choices[1] && computerChoice == choices[0]  ||
-        humanChoice == choices[2] && computerChoice == choices[1]){
-            humanScore++;
-            console.log(`You win! ${humanChoice} beats ${computerChoice}`);
+
+function playGame(){
+    let humanScore = 0;
+    let computerScore = 0;
+    function playRound(humanChoice, computerChoice){
+        //human win
+        if (humanChoice == choices[0] && computerChoice == choices[2] ||
+            humanChoice == choices[1] && computerChoice == choices[0]  ||
+            humanChoice == choices[2] && computerChoice == choices[1]){
+                humanScore++;
+                console.log(`You win! ${humanChoice} beats ${computerChoice}`);
+            }
+        //computer win
+        else if (computerChoice == choices[0] && humanChoice == choices[2] ||
+            computerChoice == choices[1] && humanChoice == choices[0]  ||
+            computerChoice == choices[2] && humanChoice == choices[1]){
+                computerScore++;
+                console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
         }
-    //computer win
-    else if (computerChoice == choices[0] && humanChoice == choices[2] ||
-        computerChoice == choices[1] && humanChoice == choices[0]  ||
-        computerChoice == choices[2] && humanChoice == choices[1]){
-            computerScore++;
-            console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
+        //tie
+        else{
+            console.log("It's a tie!");
+        }
     }
-    //tie
-    else{
-        console.log("It's a tie!")
+
+    for(let index = 0; index < 5; index++){
+        playRound(getHumanChoice(), getComputerChoice());
     }
+
+    console.log(`Final Sc1ore: User ${humanScore} : Computer ${computerScore}`);
 }
 
-playRound(getHumanChoice(), getComputerChoice())
+playGame();
