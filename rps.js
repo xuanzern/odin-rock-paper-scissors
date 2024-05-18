@@ -10,36 +10,62 @@ function getHumanChoice(){
     return choices[choice];
 }
 
+let humanChoice;
+const playerChoice = document.querySelector("#player-choice");
 
 function playGame(){
+    let rounds = 0;
     let humanScore = 0;
     let computerScore = 0;
+    const scoreboard = document.querySelector("#score");
+    const scoreTracker = document.createElement("p");
+    const para = document.createElement("p");
+    scoreboard.appendChild(scoreTracker);
+    scoreboard.appendChild(para)
+
     function playRound(humanChoice, computerChoice){
+        rounds++;
         //human win
         if (humanChoice == choices[0] && computerChoice == choices[2] ||
             humanChoice == choices[1] && computerChoice == choices[0]  ||
             humanChoice == choices[2] && computerChoice == choices[1]){
                 humanScore++;
-                console.log(`You win! ${humanChoice} beats ${computerChoice}`);
+                para.textContent = `You win! ${humanChoice} beats ${computerChoice}`;
             }
         //computer win
         else if (computerChoice == choices[0] && humanChoice == choices[2] ||
             computerChoice == choices[1] && humanChoice == choices[0]  ||
             computerChoice == choices[2] && humanChoice == choices[1]){
                 computerScore++;
-                console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
+                para.textContent = `You lose! ${computerChoice} beats ${humanChoice}`;
         }
         //tie
         else{
-            console.log("It's a tie!");
+            para.textContent = `It's a tie!`;
         }
+        scoreTracker.textContent = `Human Score: ${humanScore}, Computer Score: ${computerScore}`;
     }
 
-    for(let index = 0; index < 5; index++){
-        playRound(getHumanChoice(), getComputerChoice());
-    }
+    const playerChoice = document.querySelector("#player-choice");
 
-    console.log(`Final Sc1ore: User ${humanScore} : Computer ${computerScore}`);
+    playerChoice.addEventListener('click', (event) =>{
+        const target = event.target;
+        if (target.matches('.choice-button')){
+            const humanChoice = target.id;
+            const computerChoice = getComputerChoice();            
+            playRound(humanChoice, computerChoice);
+            if (rounds == 5){
+                para.textContent = `Final Score: User ${humanScore} : Computer ${computerScore}`
+                humanScore = 0;
+                computerScore = 0;
+                rounds = 0;
+                scoreTracker.textContent = `Human Score: ${humanScore}, Computer Score: ${computerScore}`;
+            }
+        }
+    });
+
+    
 }
 
-playGame();
+document.addEventListener('DOMContentLoaded', () => playGame())
+
